@@ -834,3 +834,34 @@ a.game-picture:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(
   .other-game h3 { font-size: 0.95em; }
   .modal-panel.wide .games-intro { display: none; }
 }
+
+/* the Stats button shares the Opponent heading's line, so the Game tab fits without scrolling */
+.opt-title-row { display: flex; align-items: center; justify-content: space-between; }
+.opt-title-row .quiet-btn { font-size: 0.85em; padding: 0.25em 0.9em; }
+/* the Rules tab opens by pointing to the tutorial */
+.rules-page .rules-intro { margin: 0.1em 0 0.6em; line-height: 1.4; }
+/* scrollable tabs: a slim scrollbar */
+.tab-page { scrollbar-width: thin; scrollbar-color: rgba(var(--accent-rgb), 0.6) transparent; }
+.tab-page::-webkit-scrollbar { width: 6px; }
+.tab-page::-webkit-scrollbar-track { background: transparent; }
+.tab-page::-webkit-scrollbar-thumb { background: rgba(var(--accent-rgb), 0.6); border-radius: 6px; }
+@media (orientation: landscape) and (max-height: 520px) {
+  #start-panel .opponent-row { padding: 0.18em 0.8em; }
+  #start-panel .opponent-rows { margin-bottom: 0.55em; }
+  .opt-title { margin-bottom: 0.25em; }
+  .tabs { margin-bottom: 0.45em; }
+  #start-panel .start-field-row { margin-bottom: 0.6em; }
+  .opt-row { margin-bottom: 0.4em; }
+}
+
+.opt-title-row .diff-title { padding-right: 0.9em; }
+
+/* Stats at the foot of the Game tab, tucked close so the tab fits without scrolling */
+#start-panel .stats-foot { margin-top: -0.2em; }
+#start-panel .stats-foot .quiet-btn { font-size: 0.85em; padding: 0.25em 0.9em; }
+@media (orientation: landscape) and (max-height: 520px) {
+  #start-panel .opponent-row { padding: 0.08em 0.8em; }
+  .seg label > span { min-height: 1.75em; padding: 0.12em 0.5em; }
+  #start-panel .stats-foot { margin-top: -0.35em; }
+  #start-panel .stats-foot .quiet-btn { padding: 0.15em 0.8em; }
+}

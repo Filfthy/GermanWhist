@@ -13,7 +13,7 @@
   <script>
     // Keep up to date without retyping the address: if the published version is newer than this
     // page, fetch the page afresh and reload once. (version.txt is never taken from the cache.)
-    window.GW_VERSION = 9;
+    window.GW_VERSION = 10;
     (function () {
       if (!window.fetch || location.protocol === "file:") return;
       fetch("version.txt", { cache: "no-store" }).then(r => r.ok ? r.text() : "").then(t => {
@@ -24,8 +24,8 @@
       }).catch(() => {});
     })();
   </script>
-  <link rel="stylesheet" href="./gw.css?v=9">
-  <link rel="stylesheet" href="./gw-ui.css?v=9">
+  <link rel="stylesheet" href="./gw.css?v=10">
+  <link rel="stylesheet" href="./gw-ui.css?v=10">
 </head>
 <body>
   <div id="game-area">
@@ -160,7 +160,7 @@
       </div>
 
       <div class="tab-page" data-page="game">
-        <div class="opt-title">Opponent</div>
+        <div class="opt-title opt-title-row"><span>Opponent</span><span class="diff-title">Difficulty</span></div>
         <div class="opponent-rows">
           <label class="opponent-row">
             <input type="radio" name="opponent" id="opp-hans" value="easy" data-label="Hans Fümbel" checked>
@@ -200,10 +200,11 @@
             <label><input type="radio" name="firstdeal" value="opponent"><span>Opponent</span></label>
           </div>
         </div>
-        <div class="look-foot"><button type="button" id="btn-stats" class="quiet-btn">Stats</button></div>
+        <div class="look-foot stats-foot"><button type="button" id="btn-stats" class="quiet-btn">Stats</button></div>
       </div>
 
       <div class="tab-page rules-page" data-page="rules">
+        <p class="rules-intro">The <b>Tutorial</b> teaches you everything you need to know to start playing. The rules are all here too.</p>
         <details class="acc" open>
           <summary>The aim</summary>
           <p>Win more of the last 13 tricks than your opponent. You score a point for every trick you take above six.</p>
@@ -339,14 +340,14 @@
     .sc-orange { color: #f08c00; }
   </style>
 
-  <script src="./AI3.js?v=9"></script>
-  <script src="./gw-expert.js?v=9"></script>
-  <script src="./gw-tutorial.js?v=9"></script>
-  <script src="./gw-core.js?v=9"></script>
+  <script src="./AI3.js?v=10"></script>
+  <script src="./gw-expert.js?v=10"></script>
+  <script src="./gw-tutorial.js?v=10"></script>
+  <script src="./gw-core.js?v=10"></script>
 
   <!-- standalone instructions overlay removed: instructions live inside the start overlay now -->
 
-  <script src="./gw-ui.js?v=9"></script>
-  <script src="./gw-app.js?v=9"></script>
+  <script src="./gw-ui.js?v=10"></script>
+  <script src="./gw-app.js?v=10"></script>
 </body>
 </html>
