@@ -734,3 +734,6 @@ body.compact {
    diamonds, so the old tuck made their tips touch the number on small cards) */
 .card .corner .suit { margin-top: -0.06em; }
 .card .corner.s-spade .suit, .card .corner.s-club .suit { margin-top: 0.02em; }
+
+/* a quiet reminder on the title screen (the games themselves are on the start screen) */
+#splash .splash-note { font-family: Georgia, "Times New Roman", serif; font-style: italic; font-size: clamp(14px, 2vh, 19px); color: rgba(253, 246, 227, 0.8); margin-top: 1.2vh; }
