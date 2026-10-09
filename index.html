@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>German Whist</title>
+  <meta name="description" content="German Whist, the classic card game for two. Build your hand in the first half, then battle for tricks in the second. Play against three computer opponents.">
+  <meta name="theme-color" content="#062f1a">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <link rel="icon" href="favicon.ico">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="stylesheet" href="./gw.css">
+  <link rel="stylesheet" href="./gw-ui.css">
+</head>
+<body>
+  <div id="game-area">
+    <div id="info-bar"></div>
+
+    <!-- Name labels -->
+    <div id="ai-name" class="name-label"></div>
+    <div id="player-name" class="name-label"></div>
+
+    <div class="row" id="top-row">
+      <div id="ai-hand"></div>
+      <div id="ai-won" class="won-stack"></div>
+    </div>
+
+    <!-- Round label, overlaid, does not move the boxes -->
+    <div id="round-label"></div>
+
+    <!-- Centre trump marker (painted on baize) -->
+    <div id="trump-marker">
+      <div id="trump-suit-top" class="trump-suit">?</div>
+
+      <div id="trump-word" class="trump-word" aria-label="TRUMP">
+        <span>T</span><span>R</span><span>U</span><span>M</span><span>P</span>
+      </div>
+
+      <div id="trump-suit-bottom" class="trump-suit">?</div>
+    </div>
+
+    <div id="table">
+      <div class="table-slot" id="deck-area">
+        <div class="deck-col">
+          <div>Stock</div>
+          <div id="deck-slot"></div>
+        </div>
+        <div class="deck-col">
+          <div>Prize</div>
+          <div id="prize-slot"></div>
+        </div>
+      </div>
+
+      <div class="table-slot" id="ai-play-area">
+        <div>AI play</div>
+        <div id="ai-play-slot"></div>
+      </div>
+
+      <div class="table-slot" id="player-play-area">
+        <div>You</div>
+        <div id="player-play-slot"></div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div id="player-hand"></div>
+      <div id="player-won" class="won-stack"></div>
+    </div>
+  </div>
+
+<!-- CORNER BUTTONS (right to left: fullscreen, sound, settings, rules, quit) -->
+<div id="controls">
+  <button id="btn-quit" type="button" class="icon-btn" aria-label="Quit this game" data-tip="Quit this game"></button>
+  <button id="btn-rules" type="button" class="icon-btn" aria-label="Rules" data-tip="Rules"></button>
+  <button id="btn-settings" type="button" class="icon-btn" aria-label="Settings" data-tip="Settings"></button>
+  <button id="btn-sound" type="button" class="icon-btn" aria-label="Sound" aria-pressed="false" data-tip="Sound"></button>
+  <button id="btn-fullscreen" type="button" class="icon-btn" aria-label="Fullscreen" aria-pressed="false" data-tip="Fullscreen"></button>
+</div>
+
+<!-- TITLE SCREEN -->
+<div id="splash" role="button" tabindex="0" aria-label="Click to start">
+  <img src="GWText.svg" alt="German Whist" class="splash-logo" draggable="false">
+  <div class="splash-subtitle">The classic card game for two</div>
+  <img src="logo.svg" alt="BugVictim" class="splash-roundel" draggable="false">
+  <div class="splash-credit">© BugVictim 2025<br><span class="artwork-credit">with artwork by Pucky</span></div>
+  <div class="splash-start">Click to start</div>
+  <div class="splash-friends">
+    <button type="button" class="friend-btn" data-act="games">More card games</button>
+    <div class="share-slot"></div>
+  </div>
+</div>
+
+<!-- PHONES HELD UPRIGHT -->
+<div id="rotate-prompt" aria-live="polite">
+  <div class="rotate-phone">📱</div>
+  <div class="rotate-title">Please turn your phone sideways</div>
+  <div class="rotate-text">German Whist is played in landscape.</div>
+</div>
+
+<!-- POPUPS: rules, settings, more games, share, credits, questions -->
+<div id="modal" class="modal-shade" style="display:none;">
+  <div class="modal-panel" role="dialog" aria-modal="true">
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<!-- TUTORIAL COACH (drag it by any bare part) -->
+<div id="coach" style="display:none;" role="status" aria-live="polite">
+  <div class="coach-grip" aria-hidden="true"></div>
+  <div class="coach-title">Tutorial</div>
+  <div id="coach-text"></div>
+  <div class="coach-buttons">
+    <button type="button" id="coach-leave" class="quiet">Leave tutorial</button>
+    <span class="coach-right"><button type="button" id="coach-skip">Skip ahead</button><button type="button" id="coach-ok">OK</button></span>
+  </div>
+</div>
+
+<!-- START SCREEN -->
+<div id="start-overlay">
+  <div id="start-panel">
+    <div class="sp-left">
+      <img src="GWText.svg" alt="German Whist" class="sp-logo" draggable="false">
+      <div class="sp-maker">
+        <img src="logo.svg" alt="BugVictim" class="sp-roundel" draggable="false">
+        <div class="sp-copy">© BugVictim 2025<br>with artwork by Pucky</div>
+      </div>
+      <div class="start-buttons">
+        <button id="btn-tutorial" type="button">Tutorial<small>learn by playing</small></button>
+        <button id="btn-play" type="button">Play<small id="btn-play-sub"></small></button>
+      </div>
+      <div class="sp-friends">
+        <button type="button" class="friend-btn" data-act="games">More card games</button>
+        <div class="share-slot"></div>
+      </div>
+    </div>
+
+    <div class="sp-right start-body">
+      <div class="start-field-row">
+        <label for="player-name-input">Your name</label>
+        <input id="player-name-input" type="text" value="Player" placeholder="Player" maxlength="20">
+      </div>
+
+      <div class="tabs" role="tablist">
+        <button type="button" class="tab-btn" role="tab" data-tab="game">Game</button>
+        <button type="button" class="tab-btn" role="tab" data-tab="rules">Rules</button>
+        <button type="button" class="tab-btn" role="tab" data-tab="look">Look &amp; feel</button>
+      </div>
+
+      <div class="tab-page" data-page="game">
+        <div class="opt-title">Opponent</div>
+        <div class="opponent-rows">
+          <label class="opponent-row">
+            <input type="radio" name="opponent" id="opp-hans" value="easy" data-label="Hans Fümbel" checked>
+            <span class="opponent-name">Hans Fümbel</span>
+            <span class="opponent-rating" aria-label="Easy"><span class="pip">♠</span></span>
+          </label>
+          <label class="opponent-row">
+            <input type="radio" name="opponent" id="opp-klara" value="medium" data-label="Klara Kartlieber">
+            <span class="opponent-name">Klara Kartlieber</span>
+            <span class="opponent-rating" aria-label="Medium"><span class="pip">♠</span><span class="pip">♠</span></span>
+          </label>
+          <label class="opponent-row">
+            <input type="radio" name="opponent" id="opp-sabine" value="hard" data-label="Sabine Strategin">
+            <span class="opponent-name">Sabine Strategin</span>
+            <span class="opponent-rating" aria-label="Hard"><span class="pip">♠</span><span class="pip">♠</span><span class="pip">♠</span></span>
+          </label>
+          <label class="opponent-row">
+            <input type="radio" name="opponent" id="opp-max" value="expert" data-label="Max Taktiker">
+            <span class="opponent-name">Max Taktiker</span>
+            <span class="opponent-rating" aria-label="Expert"><span class="pip">♠</span><span class="pip">♠</span><span class="pip">♠</span><span class="pip">♠</span></span>
+          </label>
+        </div>
+
+        <div class="opt-row">
+          <div class="opt-label">Game</div>
+          <div class="seg">
+            <label><input type="radio" name="matchmode" value="quick"><span>Single game</span></label>
+            <label><input type="radio" name="matchmode" value="match"><span>Match to 10 points</span></label>
+          </div>
+        </div>
+
+        <div class="opt-row">
+          <div class="opt-label">First deal</div>
+          <div class="seg">
+            <label><input type="radio" name="firstdeal" value="player"><span>You</span></label>
+            <label><input type="radio" name="firstdeal" value="random" checked><span>Random</span></label>
+            <label><input type="radio" name="firstdeal" value="opponent"><span>Opponent</span></label>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-page rules-page" data-page="rules">
+        <details class="acc" open>
+          <summary>The aim</summary>
+          <p>Win more of the last 13 tricks than your opponent. You score a point for every trick you take above six.</p>
+        </details>
+        <details class="acc">
+          <summary>The deal and trumps</summary>
+          <p>A standard 52 card deck is used. Each player is dealt 13 cards, and the rest form the stock. The top card of the stock is turned face up: it is the first <b>prize</b>, and its suit is <b>trump</b> for the whole game.</p>
+        </details>
+        <details class="acc">
+          <summary>Playing a trick</summary>
+          <p>One player leads a card and the other follows. You must follow suit if you can; if you can't, you may play any card. The highest card of the suit led wins, unless a trump is played, in which case the highest trump wins. The winner leads the next trick.</p>
+        </details>
+        <details class="acc">
+          <summary>Round 1: drafting</summary>
+          <p>The winner of each trick takes the face up prize. The loser takes the top card of the stock, unseen by the other player. A new prize is then turned up. These 13 tricks don't score: you are building your hand for Round 2.</p>
+        </details>
+        <details class="acc">
+          <summary>Round 2: scoring</summary>
+          <p>When the stock runs out, play the 13 cards you have built. Only these tricks count.</p>
+        </details>
+        <details class="acc">
+          <summary>Dealer and matches</summary>
+          <p>The First deal setting decides who deals the first game. The non-dealer leads the first trick. In a match the deal alternates, and the first to 10 points wins.</p>
+        </details>
+        <details class="acc">
+          <summary>Tips</summary>
+          <ul>
+            <li>In Round 1 you aren't just trying to win tricks: you're building a strong hand for Round 2.</li>
+            <li>If the prize is poor, think about losing the trick: the stock card might be better.</li>
+            <li>Keep track of the trumps and high cards that have gone.</li>
+            <li>When it's your turn your name glows and the cards you can play rise from your hand.</li>
+          </ul>
+        </details>
+      </div>
+
+      <div class="tab-page" data-page="look">
+        <div class="opt-row">
+          <div class="opt-label">Suit colours</div>
+          <div class="seg suit-seg">
+            <label><input type="radio" name="suitcolors" value="classic"><span class="pill-suits classic"><span>♥</span><span>♠</span><span>♦</span><span>♣</span></span></label>
+            <label><input type="radio" name="suitcolors" value="rbbg" checked><span class="pill-suits rbbg"><span>♥</span><span>♠</span><span>♦</span><span>♣</span></span></label>
+            <label><input type="radio" name="suitcolors" value="rbbo"><span class="pill-suits rbbo"><span>♥</span><span>♠</span><span>♦</span><span>♣</span></span></label>
+          </div>
+        </div>
+        <div class="opt-row">
+          <div class="opt-label">Table</div>
+          <div class="seg seg-tables">
+            <label data-tip="Green baize"><input type="radio" name="table" value="green" checked><span class="sw sw-green">Green</span></label>
+            <label data-tip="Red felt"><input type="radio" name="table" value="red"><span class="sw sw-red">Red</span></label>
+            <label data-tip="Midnight blue felt"><input type="radio" name="table" value="blue"><span class="sw sw-blue">Blue</span></label>
+            <label data-tip="Walnut table"><input type="radio" name="table" value="walnut"><span class="sw sw-walnut">Walnut</span></label>
+            <label data-tip="Mahogany table"><input type="radio" name="table" value="mahogany"><span class="sw sw-mahogany">Mahogany</span></label>
+            <label data-tip="Worn tavern table"><input type="radio" name="table" value="tavern"><span class="sw sw-tavern">Tavern</span></label>
+            <label data-tip="Dark marble"><input type="radio" name="table" value="marble"><span class="sw sw-marble">Marble</span></label>
+          </div>
+        </div>
+        <div class="opt-row">
+          <div class="opt-label">Card back</div>
+          <div class="seg seg-backs">
+            <label data-tip="BugVictim"><input type="radio" name="cardback" value="bugvictim" checked><span class="bk bk-bugvictim"></span></label>
+            <label data-tip="Hellfire"><input type="radio" name="cardback" value="hellfire"><span class="bk bk-hellfire"></span></label>
+            <label data-tip="Classic blue"><input type="radio" name="cardback" value="classic-blue"><span class="bk bk-classic-blue"></span></label>
+            <label data-tip="Classic red"><input type="radio" name="cardback" value="classic-red"><span class="bk bk-classic-red"></span></label>
+            <label data-tip="Drakeharbour"><input type="radio" name="cardback" value="drakeharbour"><span class="bk bk-drakeharbour"></span></label>
+            <label data-tip="Artifact"><input type="radio" name="cardback" value="artifact"><span class="bk bk-artifact"></span></label>
+          </div>
+        </div>
+        <div class="opt-row">
+          <div class="opt-label">Court cards</div>
+          <div class="seg">
+            <label><input type="radio" name="faces" value="bugvictim" checked><span>German Whist</span></label>
+            <label><input type="radio" name="faces" value="traditional"><span>Traditional</span></label>
+          </div>
+        </div>
+        <div class="opt-row">
+          <div class="opt-label">Fullscreen</div>
+          <div class="seg">
+            <label><input type="radio" name="autofs" value="on" checked><span>At start</span></label>
+            <label><input type="radio" name="autofs" value="off"><span>Off</span></label>
+          </div>
+        </div>
+        <div class="face-preview" aria-hidden="true"></div>
+        <div class="look-foot"><button type="button" id="btn-credits" class="quiet-btn">Credits</button></div>
+      </div>
+    </div>
+
+    <div class="sp-version">v2.3</div>
+
+    <!-- GAME RESULTS -->
+    <div id="results-panel" style="display:none;">
+      <div class="results-content">
+        <h2 id="results-winner"></h2>
+        <div id="results-subtitle"></div>
+        <div id="results-ruler" aria-label="Score ruler"></div>
+        <div id="results-match-table" style="display:none;"></div>
+        <div class="results-buttons">
+          <button id="btn-next-game" style="display:none;">Next Game</button>
+          <button id="btn-close-results">Close</button>
+        </div>
+        <div class="results-friends">
+          <button type="button" class="friend-btn" data-act="games">More card games</button>
+          <div class="share-slot"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <style>
+    /* Suit colour settings (wiring comes later) */
+    .suitcolors-block { margin-top: 12px; }
+    .suitcolors-title { font-weight: 700; margin-bottom: 8px; }
+    .suitcolors-row { display: grid; gap: 8px; }
+    .suitcolors-option {
+      display: grid;
+      grid-template-columns: auto auto 1fr;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      user-select: none;
+    }
+    .suitcolors-samples { display: inline-flex; gap: 6px; font-weight: 800; }
+    .sc-heart, .sc-diamond { color: #dc322f; } /* default sample: red */
+    .sc-spade, .sc-club { color: #111; }       /* default sample: black */
+    .sc-blue { color: #1f6feb; }
+    .sc-green { color: #2ea043; }
+    .sc-diffblue { color: #1b4fbf; }
+    .sc-orange { color: #f08c00; }
+  </style>
+
+  <script src="./AI3.js"></script>
+  <script src="./gw-expert.js"></script>
+  <script src="./gw-tutorial.js"></script>
+  <script src="./gw-core.js"></script>
+
+  <!-- standalone instructions overlay removed: instructions live inside the start overlay now -->
+
+  <script src="./gw-ui.js"></script>
+  <script src="./gw-app.js"></script>
+</body>
+</html>

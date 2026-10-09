@@ -1,0 +1,682 @@
+/* gw-ui.css - the title screen, start screen, corner buttons, popups and tutorial coach.
+   Loaded after gw.css; the table itself is styled there. */
+
+/* Windows take their colours from the chosen table (as in Oh Hell). Set on body, where the table class lives. */
+body {
+  --ui-rgb: 3, 32, 18;
+  --accent: #1ec000;
+  --accent-rgb: 30, 192, 0;
+  --accent-hi: #3fe02a;
+  --accent-soft: #9cf08c;
+}
+body.table-red      { --ui-rgb: 36, 6, 8;    --accent: #d8452e; --accent-rgb: 216, 69, 46;   --accent-hi: #f0644c; --accent-soft: #ffb3a4; }
+body.table-blue     { --ui-rgb: 6, 14, 38;   --accent: #4f7fe0; --accent-rgb: 79, 127, 224;  --accent-hi: #6f9cf6; --accent-soft: #b4cbff; }
+body.table-walnut   { --ui-rgb: 34, 18, 9;   --accent: #c08a4a; --accent-rgb: 192, 138, 74;  --accent-hi: #d8a464; --accent-soft: #f0cf9e; }
+body.table-mahogany { --ui-rgb: 36, 12, 7;   --accent: #c86a3c; --accent-rgb: 200, 106, 60;  --accent-hi: #e2845a; --accent-soft: #f6bf9e; }
+body.table-tavern   { --ui-rgb: 33, 21, 10;  --accent: #b98a4e; --accent-rgb: 185, 138, 78;  --accent-hi: #d2a466; --accent-soft: #ecd0a2; }
+body.table-marble   { --ui-rgb: 22, 22, 25;  --accent: #a8a8b4; --accent-rgb: 168, 168, 180; --accent-hi: #c4c4d0; --accent-soft: #e2e2ea; }
+
+body {
+  --gw-green: var(--accent);
+  --gw-green-hi: var(--accent-hi);
+  --gw-panel: rgba(var(--ui-rgb), 0.97);
+  --gw-cream: #fdf6e3;
+  --gw-gold: #ffcc33;
+  --gw-ui-font: clamp(14px, 2.05vh, 19px);
+}
+
+/* ===================================================================== title screen */
+#splash {
+  position: fixed;
+  inset: 0;
+  z-index: 20000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.6vh;
+  cursor: pointer;
+  user-select: none;
+  background: radial-gradient(ellipse at 50% 42%, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.35) 60%, rgba(0, 0, 0, 0.7) 100%);
+  color: var(--gw-cream);
+  text-align: center;
+  padding: 2vh 3vw;
+  box-sizing: border-box;
+}
+#splash .splash-logo {
+  width: min(84vw, 980px, 150vh);
+  height: auto;
+  filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.75));
+  animation: splashIn 0.9s ease-out both;
+}
+#splash .splash-subtitle {
+  font-family: Georgia, "Times New Roman", serif;
+  font-style: italic;
+  font-weight: 700;
+  font-size: clamp(17px, 3.1vh, 30px);
+  color: var(--gw-gold);
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8);
+  margin-top: -0.6vh;
+}
+#splash .splash-roundel { width: clamp(64px, 14vh, 130px); height: auto; margin-top: 1.4vh; }
+#splash .splash-credit { font-size: clamp(13px, 1.9vh, 18px); letter-spacing: 0.08em; opacity: 0.85; line-height: 1.6; }
+#splash .artwork-credit { letter-spacing: 0.04em; opacity: 0.85; }
+.version {
+  display: inline-block;
+  margin-left: 0.4em;
+  padding: 0.05em 0.5em;
+  border: 1px solid rgba(var(--accent-rgb), 0.7);
+  border-radius: 999px;
+  font-size: 0.85em;
+  letter-spacing: 0.04em;
+  color: var(--accent-soft);
+}
+#splash .splash-start {
+  margin-top: 1.4vh;
+  font-size: clamp(16px, 2.6vh, 24px);
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  animation: startPulse 1.8s ease-in-out infinite;
+}
+#splash .splash-friends { display: flex; gap: 14px; margin-top: 2vh; flex-wrap: wrap; justify-content: center; }
+@keyframes splashIn { from { opacity: 0; transform: translateY(-2vh) scale(0.97); } to { opacity: 1; transform: none; } }
+@keyframes startPulse { 0%, 100% { opacity: 0.55; } 50% { opacity: 1; } }
+
+/* the More card games / Share buttons (title screen and start screen) */
+.friend-btn {
+  background: rgba(0, 0, 0, 0.45);
+  color: var(--gw-cream);
+  border: 1px solid var(--gw-green);
+  border-radius: 10px;
+  padding: 0.55em 1.2em;
+  font-size: clamp(14px, 1.9vh, 17px);
+  font-weight: 600;
+  margin: 0;
+  cursor: pointer;
+}
+.friend-btn:hover { background: rgba(var(--accent-rgb), 0.22); }
+
+/* ===================================================================== corner buttons */
+#controls {
+  position: fixed;
+  top: max(6px, env(safe-area-inset-top));
+  right: max(8px, env(safe-area-inset-right));
+  z-index: 25000;
+  display: flex;
+  gap: 6px;
+  margin: 0;
+}
+#controls .icon-btn {
+  width: 46px;
+  height: 42px;
+  margin: 0;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9px;
+  font-size: 21px;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid var(--gw-green);
+  color: #fff;
+}
+#controls .icon-btn svg { display: block; width: 22px; height: 22px; }
+#controls .icon-btn:hover { background: rgba(var(--accent-rgb), 0.22); filter: none; }
+#controls .icon-btn.muted { opacity: 0.6; }
+/* outside a game only sound and fullscreen are needed */
+body.in-menu #btn-quit,
+body.in-menu #btn-rules,
+body.in-menu #btn-settings { display: none; }
+/* the old start-screen sound button sits in the corner row now */
+#game-area #controls { display: none; }
+
+/* quick tooltips (data-tip) */
+#tip {
+  position: fixed;
+  z-index: 30000;
+  pointer-events: none;
+  background: rgba(var(--ui-rgb), 0.96);
+  color: var(--gw-cream);
+  border: 1px solid var(--gw-green);
+  border-radius: 7px;
+  padding: 5px 10px;
+  font-size: 15px;
+  white-space: nowrap;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6);
+  opacity: 0;
+  transition: opacity 0.12s;
+}
+#tip.on { opacity: 1; }
+
+/* ===================================================================== start screen */
+#start-overlay { background: rgba(0, 0, 0, 0.45); }
+#start-panel {
+  width: min(1120px, 96vw);
+  min-width: 0;
+  max-width: none;
+  height: min(94vh, 33em);
+  max-height: 94vh;
+  --scale-factor: calc(var(--gw-ui-font) / 2.2);
+  font-size: var(--gw-ui-font);
+  padding: 2.2em 2.2em 1.8em;
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.15fr);
+  gap: 2.2em;
+  align-items: stretch;
+  background: var(--gw-panel);
+  border: 2px solid var(--gw-green);
+  border-radius: 18px;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+#start-panel .sp-left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.1em;
+  min-width: 0;
+}
+#start-panel .sp-logo { width: 100%; height: auto; filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.6)); }
+#start-panel .sp-maker { display: flex; align-items: center; gap: 0.8em; }
+#start-panel .sp-roundel { width: 4.2em; height: auto; }
+#start-panel .sp-copy { color: var(--accent-soft); letter-spacing: 0.06em; line-height: 1.5; font-size: 0.92em; }
+#start-panel .start-buttons { display: flex; gap: 0.8em; width: 100%; margin-top: 0.4em; }
+#start-panel .start-buttons button {
+  flex: 1 1 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2em;
+  padding: 0.7em 0.6em;
+  border-radius: 12px;
+  font-size: 1.35em;
+  font-weight: 700;
+  line-height: 1.15;
+}
+#start-panel .start-buttons button small { font-size: 0.6em; font-weight: 600; }
+#btn-tutorial small { color: var(--accent-soft); }
+#btn-tutorial { background: transparent; color: var(--gw-green-hi); border: 2px solid var(--gw-green); }
+#btn-tutorial:hover { background: rgba(var(--accent-rgb), 0.16); }
+#btn-play { background: var(--gw-green); color: #021408; border: 2px solid var(--gw-green); }
+#btn-play:hover { background: var(--accent-hi); }
+#start-panel .sp-friends { display: flex; gap: 0.6em; width: 100%; }
+#start-panel .sp-friends .friend-btn { flex: 1 1 0; font-size: 0.9em; padding: 0.6em 0.4em; }
+
+#start-panel .sp-right { display: flex; flex-direction: column; min-width: 0; min-height: 0; }
+#start-panel .start-field-row {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 1em;
+  margin: 0 0 1em;
+  padding: 0;
+}
+#start-panel .start-field-row label { font-weight: 700; color: var(--gw-cream); white-space: nowrap; }
+#start-panel #player-name-input {
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 1em;
+  padding: 0.45em 0.7em;
+  border-radius: 8px;
+  border: 1px solid var(--gw-green);
+  background: rgba(0, 0, 0, 0.35);
+  color: var(--gw-cream);
+}
+
+.tabs { display: flex; border-bottom: 1px solid rgba(var(--accent-rgb), 0.35); margin-bottom: 0.9em; }
+.tab-btn {
+  flex: 1 1 0;
+  margin: 0;
+  background: transparent;
+  color: rgba(253, 246, 227, 0.7);
+  border: 0;
+  border-bottom: 3px solid transparent;
+  border-radius: 0;
+  padding: 0.5em 0.4em;
+  font-size: 1.02em;
+  font-weight: 700;
+}
+.tab-btn:hover { background: rgba(var(--accent-rgb), 0.1); color: var(--gw-cream); }
+.tab-btn.on { color: var(--gw-cream); border-bottom-color: var(--gw-green); }
+
+.tab-page { display: none; overflow-y: auto; min-height: 0; padding-right: 0.4em; }
+.tab-page.on { display: block; }
+.tab-page::-webkit-scrollbar { width: 9px; }
+.tab-page::-webkit-scrollbar-thumb { background: rgba(var(--accent-rgb), 0.8); border-radius: 8px; }
+.tab-page::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.25); border-radius: 8px; }
+
+.opt-title { font-weight: 700; margin: 0 0 0.4em; color: var(--gw-cream); }
+#start-panel .opponent-rows {
+  border: 1px solid rgba(var(--accent-rgb), 0.35);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 1em;
+}
+#start-panel .opponent-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.8em;
+  padding: 0.5em 0.9em;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+#start-panel .opponent-row:last-child { border-bottom: 0; }
+#start-panel .opponent-row:has(input:checked) { background: rgba(var(--accent-rgb), 0.18); }
+#start-panel .opponent-row input { accent-color: var(--gw-green); width: 1.1em; height: 1.1em; margin: 0; }
+#start-panel .opponent-name { font-size: 1.05em; }
+#start-panel .opponent-rating .pip { color: var(--gw-cream); margin-left: 0.15em; }
+
+.opt-row { display: grid; grid-template-columns: 7.2em 1fr; align-items: center; gap: 0.7em; margin-bottom: 0.8em; }
+.opt-label { font-weight: 700; color: var(--gw-cream); }
+.seg { display: flex; gap: 0.45em; flex-wrap: wrap; }
+.seg label { flex: 1 1 auto; cursor: pointer; }
+.seg input { position: absolute; opacity: 0; pointer-events: none; }
+.seg label > span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.1em;
+  padding: 0.3em 0.7em;
+  border-radius: 9px;
+  border: 1px solid rgba(var(--accent-rgb), 0.45);
+  background: rgba(0, 0, 0, 0.3);
+  color: rgba(253, 246, 227, 0.85);
+  white-space: nowrap;
+  box-sizing: border-box;
+}
+.seg label:hover > span { background: rgba(var(--accent-rgb), 0.12); }
+.seg input:checked + span { background: rgba(var(--accent-rgb), 0.3); border-color: var(--gw-green-hi); color: #fff; font-weight: 700; }
+.seg input:focus-visible + span { outline: 2px solid var(--gw-green-hi); outline-offset: 2px; }
+.suit-seg .pill-suits { background: var(--gw-cream) !important; gap: 0.35em; font-size: 1.15em; padding: 0.15em 0.7em; }
+.suit-seg input:checked + .pill-suits { box-shadow: 0 0 0 3px var(--gw-green-hi); filter: none; }
+
+/* a peek at the court cards in the Look & feel tab */
+.face-preview { display: flex; justify-content: center; gap: 0.6em; margin: 0.5em 0 0.6em; min-height: 6.2em; }
+.face-preview .card { position: relative; }
+.look-foot { display: flex; justify-content: flex-end; }
+.quiet-btn {
+  background: transparent;
+  border: 1px solid rgba(var(--accent-rgb), 0.6);
+  color: var(--gw-cream);
+  border-radius: 8px;
+  padding: 0.4em 1em;
+  font-size: 0.95em;
+  margin: 0;
+}
+.quiet-btn:hover { background: rgba(var(--accent-rgb), 0.16); }
+
+/* rules as sections that open */
+.rules-page .acc { border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
+.rules-page summary {
+  cursor: pointer;
+  padding: 0.5em 0.2em;
+  font-weight: 700;
+  color: var(--accent-soft);
+  list-style: none;
+}
+.rules-page summary::-webkit-details-marker { display: none; }
+.rules-page summary::before { content: "▸"; display: inline-block; width: 1.1em; transition: transform 0.15s; }
+.rules-page details[open] summary::before { transform: rotate(90deg); }
+.rules-page p, .rules-page ul { margin: 0 0 0.7em 1.1em; line-height: 1.45; color: var(--gw-cream); }
+.rules-page ul { padding-left: 1.1em; }
+.rules-page li { margin-bottom: 0.3em; }
+
+/* results take the whole panel */
+#start-panel.results-open { grid-template-columns: 1fr; width: min(760px, 94vw); height: auto; }
+#start-panel.results-open .sp-left,
+#start-panel.results-open .sp-right { display: none !important; }
+#start-panel.results-open #results-panel { display: flex; }
+
+/* ===================================================================== popups */
+.modal-shade {
+  position: fixed;
+  inset: 0;
+  z-index: 21000;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 12px 12px;
+  box-sizing: border-box;
+}
+.modal-panel {
+  width: min(760px, 94vw);
+  max-height: 100%;
+  overflow-y: auto;
+  box-sizing: border-box;
+  background: var(--gw-panel);
+  border: 2px solid var(--gw-green);
+  border-radius: 16px;
+  padding: 1.4em 1.8em 1.3em;
+  color: var(--gw-cream);
+  font-size: var(--gw-ui-font);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.85);
+}
+.modal-panel.wide { width: min(1080px, 96vw); }
+.modal-panel.small { width: min(480px, 92vw); text-align: center; }
+.modal-panel h2 { margin: 0 0 0.6em; color: var(--gw-gold); font-family: Georgia, "Times New Roman", serif; font-size: 1.5em; }
+.modal-panel p { line-height: 1.45; }
+.modal-buttons { display: flex; justify-content: flex-end; gap: 0.7em; margin-top: 1.1em; flex-wrap: wrap; }
+.modal-panel.small .modal-buttons { justify-content: center; }
+.modal-buttons button {
+  margin: 0;
+  border-radius: 9px;
+  padding: 0.55em 1.4em;
+  font-size: 1em;
+  font-weight: 700;
+  background: var(--gw-green);
+  color: #021408;
+}
+.modal-buttons button:hover { background: var(--accent-hi); }
+.modal-buttons button.quiet { background: transparent; color: var(--gw-cream); border: 1px solid rgba(253, 246, 227, 0.4); font-weight: 600; }
+.modal-buttons button.quiet:hover { background: rgba(255, 255, 255, 0.08); }
+.modal-panel .tab-page { display: block; overflow: visible; }
+
+/* More card games */
+.games-intro { margin: -0.3em 0 1em; font-style: italic; opacity: 0.85; }
+.other-games { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.2em; }
+.other-game { display: flex; flex-direction: column; min-width: 0; }
+.other-game .game-picture {
+  aspect-ratio: 630 / 500;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(var(--accent-rgb), 0.45);
+  background: #000;
+}
+.other-game .game-picture img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.other-game h3 { margin: 0.6em 0 0.15em; font-size: 1.15em; color: var(--gw-cream); }
+.other-game .game-devices { font-size: 0.82em; color: var(--accent-soft); letter-spacing: 0.04em; }
+.other-game p { margin: 0.4em 0 0.9em; font-size: 0.92em; line-height: 1.4; flex: 1 1 auto; }
+.play-link {
+  display: block;
+  text-align: center;
+  text-decoration: none;
+  background: var(--gw-green);
+  color: #021408;
+  font-weight: 700;
+  border-radius: 9px;
+  padding: 0.5em 0.8em;
+}
+.play-link:hover { background: var(--accent-hi); }
+.games-share { text-align: center; font-style: italic; margin: 1.1em 0 0; }
+
+/* Share */
+.share-buttons { display: flex; gap: 0.7em; justify-content: center; margin-top: 1em; flex-wrap: wrap; }
+.share-buttons button { margin: 0; border-radius: 9px; padding: 0.55em 1.4em; font-size: 1em; font-weight: 700; background: var(--gw-green); color: #021408; }
+.share-buttons button.secondary { background: transparent; color: var(--gw-cream); border: 1px solid var(--gw-green); }
+#share-link { width: 100%; box-sizing: border-box; margin-top: 0.8em; font-size: 0.95em; padding: 0.4em 0.6em; border-radius: 7px; border: 1px solid var(--gw-green); background: rgba(0, 0, 0, 0.4); color: var(--gw-cream); }
+#share-status { min-height: 1.3em; margin-top: 0.6em; text-align: center; color: var(--accent-soft); }
+
+.credits p { margin: 0 0 0.7em; }
+
+/* ===================================================================== tutorial coach */
+#coach {
+  position: fixed;
+  left: 2.2vw;
+  top: 36vh;
+  z-index: 15000;
+  width: min(340px, 23vw);
+  min-width: 250px;
+  box-sizing: border-box;
+  background: rgba(var(--ui-rgb), 0.96);
+  border: 2px solid var(--gw-gold);
+  border-radius: 14px;
+  padding: 0.5em 1.1em 0.9em;
+  color: var(--gw-cream);
+  font-size: clamp(15px, 2vh, 18px);
+  line-height: 1.42;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.75);
+  cursor: grab;
+  touch-action: none;
+}
+#coach.dragging { cursor: grabbing; }
+#coach .coach-grip {
+  height: 10px;
+  margin: 0 auto 0.35em;
+  width: 64px;
+  background-image: radial-gradient(circle, rgba(255, 204, 51, 0.8) 1.4px, transparent 1.6px);
+  background-size: 8px 8px;
+}
+#coach .coach-title { font-weight: 800; color: var(--gw-gold); letter-spacing: 0.06em; text-transform: uppercase; font-size: 0.82em; margin-bottom: 0.3em; }
+#coach-text b { color: var(--gw-gold); }
+#coach-text .s-heart, #coach-text .s-diamond, #coach-text .s-club, #coach-text .s-spade {
+  background: var(--gw-cream);
+  border-radius: 4px;
+  padding: 0 0.22em;
+  font-weight: 800;
+}
+#coach .coach-buttons { display: flex; justify-content: space-between; align-items: center; gap: 0.6em; margin-top: 0.7em; }
+#coach .coach-buttons button { margin: 0; border-radius: 8px; padding: 0.4em 1.1em; font-size: 0.95em; font-weight: 700; background: var(--gw-gold); color: #1a1200; cursor: pointer; }
+#coach .coach-buttons button.quiet { background: transparent; color: rgba(253, 246, 227, 0.75); border: 1px solid rgba(253, 246, 227, 0.3); font-weight: 500; }
+#coach.no-ok #coach-ok { display: none; }
+#coach.shake { animation: coachShake 0.35s; }
+@keyframes coachShake { 0%, 100% { transform: none; } 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+
+/* the card the tutorial asks for */
+#player-hand .card.tut-pick { animation: tutPick 1.1s ease-in-out infinite; }
+@keyframes tutPick {
+  0%, 100% { box-shadow: 0 0 0 3px rgba(255, 204, 51, 0.9), 0 0 10px rgba(255, 204, 51, 0.6); }
+  50% { box-shadow: 0 0 0 4px rgba(255, 230, 120, 1), 0 0 22px rgba(255, 204, 51, 0.95); }
+}
+
+/* ===================================================================== traditional court cards */
+body.faces-traditional .card .royal-inset { inset: 11.2% 15.7%; border-radius: 2px; }
+body.faces-traditional .card .royal-inset-img { object-fit: contain; }
+
+/* ===================================================================== touch: a first tap picks a card, a second plays it */
+#player-hand .card.picked { --hover-scale: 1.1; box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.85), 0 10px 18px rgba(0, 0, 0, 0.85) !important; }
+
+/* ===================================================================== phones held upright */
+#rotate-prompt {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 40000;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  text-align: center;
+  padding: 24px;
+  background: radial-gradient(ellipse at 50% 45%, #0b4a26, #021208 75%);
+  color: var(--gw-cream);
+}
+#rotate-prompt .rotate-phone { font-size: 64px; animation: rotatePhone 2.2s ease-in-out infinite; }
+#rotate-prompt .rotate-title { font-size: 24px; font-weight: 800; color: var(--gw-gold); }
+#rotate-prompt .rotate-text { font-size: 17px; opacity: 0.85; }
+@keyframes rotatePhone { 0%, 30% { transform: rotate(0); } 60%, 100% { transform: rotate(-90deg); } }
+@media (orientation: portrait) and (max-width: 700px) {
+  #rotate-prompt { display: flex; }
+}
+
+/* ===================================================================== phones on their side */
+@media (orientation: landscape) and (max-height: 520px) {
+  :root { --gw-ui-font: 13.5px; }
+  #controls .icon-btn { width: 38px; height: 34px; border-radius: 7px; }
+  /* in a game the buttons stand in a column down the right edge, clear of the hands */
+  body:not(.in-menu) #controls { flex-direction: column-reverse; top: 50%; transform: translateY(-50%); }
+  #start-overlay { padding-top: 40px; box-sizing: border-box; align-items: flex-start; }
+  #start-panel { max-height: calc(100vh - 46px); height: calc(100vh - 46px); }
+  #controls .icon-btn svg { width: 19px; height: 19px; }
+  #splash { gap: 1.2vh; }
+  #splash .splash-logo { width: min(70vw, 120vh); }
+  #splash .splash-roundel { width: 54px; margin-top: 0; }
+  #splash .splash-friends { margin-top: 0.6vh; }
+  #start-panel { padding: 1.1em 1.3em 1em; gap: 1.3em; max-height: 96vh; }
+  #start-panel .sp-left { gap: 0.7em; }
+  #start-panel .sp-roundel { width: 3em; }
+  #start-panel .start-buttons button { font-size: 1.2em; padding: 0.5em 0.4em; }
+  #start-panel .opponent-row { padding: 0.32em 0.8em; }
+  .opt-row { margin-bottom: 0.55em; grid-template-columns: 6.4em 1fr; }
+  .seg label > span { min-height: 1.9em; padding: 0.2em 0.5em; }
+  .tabs { margin-bottom: 0.6em; }
+  .modal-shade { padding: 46px 8px 6px; }
+  .modal-panel { padding: 0.9em 1.2em; }
+  .other-games { gap: 0.8em; }
+  .other-game p { font-size: 0.85em; margin-bottom: 0.6em; }
+  #coach { width: min(270px, 34vw); min-width: 0; max-height: 78vh; overflow-y: auto; font-size: 13px; line-height: 1.35; padding: 0.3em 0.7em 0.5em; top: 6px; left: 6px; }
+  #coach .coach-buttons { margin-top: 0.45em; }
+  #coach .coach-buttons button { padding: 0.3em 0.8em; }
+}
+
+/* ===================================================================== tables and card backs (as in Oh Hell) */
+body.table-red      { background-image: radial-gradient(ellipse at 50% 46%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.18) 42%, rgba(0,0,0,0.72) 78%, rgba(0,0,0,0.88) 100%), url("baize-red.jpg");  background-color: #2a0507; }
+body.table-blue     { background-image: radial-gradient(ellipse at 50% 46%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.18) 42%, rgba(0,0,0,0.72) 78%, rgba(0,0,0,0.88) 100%), url("baize-blue.jpg"); background-color: #05102a; }
+body.table-walnut   { background-image: radial-gradient(ellipse at 50% 46%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.12) 42%, rgba(0,0,0,0.65) 78%, rgba(0,0,0,0.85) 100%), url("walnut.jpg"); background-color: #2a160c; }
+body.table-mahogany { background-image: radial-gradient(ellipse at 50% 46%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.12) 42%, rgba(0,0,0,0.65) 78%, rgba(0,0,0,0.85) 100%), url("table-mahogany.jpg"); background-color: #2a0c08; }
+body.table-tavern   { background-image: radial-gradient(ellipse at 50% 46%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.12) 42%, rgba(0,0,0,0.65) 78%, rgba(0,0,0,0.85) 100%), url("table-tavern.jpg"); background-color: #2a180c; }
+body.table-marble   { background-image: radial-gradient(ellipse at 50% 46%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.12) 42%, rgba(0,0,0,0.65) 78%, rgba(0,0,0,0.85) 100%), url("table-marble.jpg"); background-color: #1c1c1e; }
+body[class*="table-"]:not(.table-green) { background-repeat: no-repeat, repeat; background-size: 100% 100%, cover; }
+body.table-red, body.table-blue { background-size: 100% 100%, auto; }
+
+.seg-tables label { flex: 1 1 22%; }
+.seg-tables .sw { color: var(--gw-cream) !important; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9); font-weight: 700; }
+.seg-tables .sw-green    { background: url("baize.jpg") center / 200% !important; }
+.seg-tables .sw-red      { background: url("baize-red.jpg") center / 200% !important; }
+.seg-tables .sw-blue     { background: url("baize-blue.jpg") center / 200% !important; }
+.seg-tables .sw-walnut   { background: url("walnut.jpg") center / 200% !important; }
+.seg-tables .sw-mahogany { background: url("table-mahogany.jpg") center / 200% !important; }
+.seg-tables .sw-tavern   { background: url("table-tavern.jpg") center / 200% !important; }
+.seg-tables .sw-marble   { background: url("table-marble.jpg") center / 200% !important; }
+.seg-tables input:checked + .sw { box-shadow: 0 0 0 3px var(--gw-green-hi); }
+
+body.back-hellfire .card.back     { background: #1a0602 url("back-hellfire.webp") center / 100% 100% no-repeat; border-color: #1a0602; }
+body.back-classic-blue .card.back { background: #fff url("back-classic-blue.svg") center / 100% 100% no-repeat; border-color: #d8d8d8; }
+body.back-classic-red .card.back  { background: #fff url("back-classic-red.svg") center / 100% 100% no-repeat; border-color: #d8d8d8; }
+.seg-backs label { flex: 0 0 auto; }
+.seg-backs .bk { width: 2.2em; height: 3.2em; min-height: 0 !important; padding: 0 !important; border-radius: 5px !important; background-color: #fdf6e3 !important; background-repeat: no-repeat !important; }
+.seg-backs .bk-bugvictim    { background-image: url("back.svg") !important; background-size: 92% 92% !important; background-position: center !important; }
+.seg-backs .bk-hellfire     { background: #1a0602 url("back-hellfire.webp") center / 100% 100% no-repeat !important; }
+.seg-backs .bk-classic-blue { background: #fff url("back-classic-blue.svg") center / 100% 100% no-repeat !important; }
+.seg-backs .bk-classic-red  { background: #fff url("back-classic-red.svg") center / 100% 100% no-repeat !important; }
+.seg-backs input:checked + .bk { box-shadow: 0 0 0 3px var(--gw-green-hi); }
+
+/* ===================================================================== the logo: a white edge so its black outline shows on any table */
+#splash .splash-logo {
+  filter: drop-shadow(2px 0 0 #fff) drop-shadow(-2px 0 0 #fff) drop-shadow(0 2px 0 #fff) drop-shadow(0 -2px 0 #fff) drop-shadow(0 8px 16px rgba(0, 0, 0, 0.7));
+}
+#start-panel .sp-logo {
+  filter: drop-shadow(1.5px 0 0 #fff) drop-shadow(-1.5px 0 0 #fff) drop-shadow(0 1.5px 0 #fff) drop-shadow(0 -1.5px 0 #fff) drop-shadow(0 4px 10px rgba(0, 0, 0, 0.6));
+}
+
+/* ===================================================================== court cards: the corner index sits on a clean patch of card */
+.card.court .corner {
+  background: #fdf6e3;
+  border-radius: calc(3px * var(--card-scale));
+  padding: 0 calc(1px * var(--card-scale)) calc(2px * var(--card-scale));
+}
+
+/* the tutorial's Skip to Round 2 */
+#coach .coach-right { display: inline-flex; gap: 0.5em; }
+#coach #coach-skip { display: none; }
+#coach.can-skip #coach-skip { display: inline-block; }
+#coach.no-ok #coach-ok { display: none; }
+#coach.ff .coach-buttons { display: none; }
+
+/* the Drakeharbour Syndicates back (its parchment edge is part of the picture) */
+body.back-drakeharbour .card.back { background: transparent url("back-drakeharbour.webp") center / 100% 100% no-repeat; border-color: transparent; }
+.seg-backs .bk-drakeharbour { background: transparent url("back-drakeharbour.webp") center / 100% 100% no-repeat !important; }
+
+/* the Artifact back */
+body.back-artifact .card.back { background: transparent url("back-artifact.webp") center / 100% 100% no-repeat; border-color: transparent; }
+.seg-backs .bk-artifact { background: transparent url("back-artifact.webp") center / 100% 100% no-repeat !important; }
+
+/* while the title screen is up the table is empty */
+body:has(#splash:not([style*="none"])) #game-area { opacity: 0; }
+body:has(#splash:not([style*="none"])) #start-overlay { visibility: hidden; }
+/* the court card preview is a peek, not full size */
+.face-preview { zoom: 0.62; min-height: 0; margin: 0.3em 0 0.4em; }
+
+/* ===================================================================== sharing, as on Drakeharbour's start screen */
+.share-box {
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: center;
+  justify-content: center;
+  column-gap: 0.9em;
+  row-gap: 0.3em;
+  padding: 0.35em 0.9em;
+  border: 1.5px solid rgba(253, 246, 227, 0.85);
+  border-radius: 9px;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.35);
+  color: var(--gw-cream);
+  cursor: default;
+}
+.share-box p { margin: 0; font-size: 0.95em; text-shadow: 0 1px 3px #000; }
+.share-box .share-buttons { display: flex; gap: 0.5em; margin: 0; }
+.share-box .share-action {
+  margin: 0;
+  padding: 0.4em 0.8em;
+  border: 1px solid rgba(253, 246, 227, 0.65);
+  border-radius: 6px;
+  background: rgba(var(--accent-rgb), 0.28);
+  color: #fff;
+  font-size: 0.95em;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+}
+.share-box .share-action:hover { background: rgba(var(--accent-rgb), 0.5); }
+.share-box .share-status { grid-column: 1 / -1; text-align: center; font-size: 0.85em; color: var(--accent-soft); }
+.share-box .share-status:empty { display: none; }
+.share-box .share-link { grid-column: 1 / -1; width: 100%; box-sizing: border-box; padding: 0.3em; font-size: 0.85em; color: #fff;
+  background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(253, 246, 227, 0.5); border-radius: 4px; }
+.share-box .share-link[hidden] { display: none; }
+
+#splash .splash-friends { flex-direction: column; align-items: center; gap: 1.4vh; font-size: clamp(14px, 1.9vh, 17px); }
+#splash .share-box p { font-size: 1em; }
+#start-panel .sp-friends { flex-direction: column; align-items: stretch; gap: 0.7em; }
+#start-panel .sp-friends .friend-btn { flex: none; }
+#start-panel .sp-friends .share-box { font-size: 0.85em; padding: 0.35em 0.6em; column-gap: 0.6em; }
+.modal-panel .share-box { margin: 1.1em auto 0; width: max-content; max-width: 100%; }
+
+/* the version, quietly in the start screen's corner */
+#start-panel .sp-version {
+  position: absolute;
+  right: 1em;
+  bottom: 0.6em;
+  font-size: 0.75em;
+  letter-spacing: 0.06em;
+  color: rgba(253, 246, 227, 0.55);
+  pointer-events: none;
+}
+#start-panel.results-open .sp-version { display: none; }
+/* in the narrower start screen column the thanks sits above its buttons */
+#start-panel .sp-friends .share-box { grid-template-columns: 1fr; justify-items: center; text-align: center; padding: 0.45em 0.6em 0.55em; }
+
+/* between games too: More card games and the sharing strip under the result */
+#results-panel .results-friends { display: flex; flex-direction: column; align-items: center; gap: 0.6em; margin-top: 1.1em; padding-top: 1em;
+  border-top: 1px solid rgba(var(--accent-rgb), 0.3); width: 100%; font-size: 0.9em; }
+#results-panel .results-friends .friend-btn { margin: 0; }
+
+/* ===================================================================== one look for every button
+   Main actions: filled with the table's accent colour. Everything else: dark, with an accent edge. */
+#btn-play, .modal-buttons button, .play-link, #coach #coach-ok, #coach #coach-skip,
+#results-panel .results-buttons button {
+  background: var(--accent) !important;
+  color: #0d1408 !important;
+  border: 1px solid var(--accent) !important;
+  font-weight: 700;
+}
+#btn-play:hover, .modal-buttons button:hover, .play-link:hover, #coach #coach-ok:hover, #coach #coach-skip:hover,
+#results-panel .results-buttons button:hover { background: var(--accent-hi) !important; border-color: var(--accent-hi) !important; }
+#btn-tutorial, .friend-btn, .quiet-btn, .share-box .share-action, .modal-buttons button.quiet, #coach .coach-buttons button.quiet {
+  background: rgba(0, 0, 0, 0.35) !important;
+  color: var(--gw-cream) !important;
+  border: 1px solid var(--accent) !important;
+}
+#btn-tutorial:hover, .friend-btn:hover, .quiet-btn:hover, .share-box .share-action:hover, .modal-buttons button.quiet:hover,
+#coach .coach-buttons button.quiet:hover { background: rgba(var(--accent-rgb), 0.22) !important; }
+#btn-tutorial { border-width: 2px !important; }
+#btn-tutorial small, #btn-play small { color: inherit !important; opacity: 0.85; }
+
+/* ===================================================================== title screen: "Click to start" at the foot of the page */
+#splash .splash-start { position: absolute; left: 0; right: 0; bottom: max(3.5vh, env(safe-area-inset-bottom)); margin: 0; }
+#splash { padding-bottom: 9vh; }
+
+/* the farewell has one button */
+#coach.closing #coach-leave { display: none; }
+#coach.closing .coach-buttons { justify-content: flex-end; }
