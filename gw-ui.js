@@ -111,7 +111,8 @@ const GWUI = {
     ];
     this.modal(`<h2>More card games</h2><p class="games-intro">Other games by BugVictim.</p>
       <div class="other-games">${games.map(g => `<article class="other-game">
-        <div class="game-picture">${g.soon ? '<span class="soon-ribbon">Coming soon</span>' : ""}<img src="img/more-games-${g.key}.webp" alt="${g.title} artwork" loading="lazy"></div>
+        ${g.soon ? `<div class="game-picture"><span class="soon-ribbon">Coming soon</span><img src="img/more-games-${g.key}.webp" alt="${g.title} artwork" loading="lazy"></div>`
+          : `<a class="game-picture" href="https://bug-victim.itch.io/${g.key}" target="_blank" rel="noopener noreferrer" aria-label="Play ${g.title} on itch.io (opens a new tab)"><img src="img/more-games-${g.key}.webp" alt="${g.title} artwork" loading="lazy"></a>`}
         <h3>${g.title}</h3><span class="game-devices">${g.devices}</span><p>${g.description}</p>
         ${g.soon ? '<span class="play-link soon">Coming soon</span>' : `<a class="play-link" href="https://bug-victim.itch.io/${g.key}" target="_blank" rel="noopener noreferrer">Play on itch.io</a>`}
       </article>`).join("")}</div>
