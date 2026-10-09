@@ -252,16 +252,16 @@ class TableView {
     const s = layoutMetrics.scale;
     const halfHand = 6 * (layoutMetrics.fanStep || 14) * s + layoutMetrics.cardWidth / 2;
     const gap = Math.max(180 * s, halfHand + 12 * s);
-    const backH = layoutMetrics.cardHeight * 0.42;
+    const backH = 22 * s;   // the marker's height
     const step = Math.min(24 * s, Math.max(4, (window.innerHeight * 0.4 - backH) / 12));
     [aiWonDiv, playerWonDiv].forEach(d => { d.style.marginLeft = gap + "px"; });
 
     const paintStack = (root, count, direction) => {
       for (let i = 0; i < count; i++) {
-        // a trick is two cards squared up together; each trick lies crosswise to the one before,
-        // the way players keep their tricks countable at the table
+        // the original trick marker (trick.png: two cards lying sideways, one tilted under the
+        // other), drawn with the chosen card back
         const el = document.createElement("div");
-        el.className = "won-trick-pair" + (i % 2 ? " across" : "");
+        el.className = "won-trick-pair";
         for (let k = 0; k < 2; k++) {
           const c = this.cardView.createCardElement(null, { back: true });
           c.classList.add("won-trick");
