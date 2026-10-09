@@ -729,3 +729,8 @@ body.compact {
 }
 .won-stack .won-trick-pair .card.back.won-trick:first-child { transform: translate(calc(1.5px * var(--card-scale)), calc(-2px * var(--card-scale))) rotate(76deg); }
 .won-stack .won-trick-pair .card.back.won-trick:last-child { transform: translate(calc(-1px * var(--card-scale)), calc(2px * var(--card-scale))) rotate(92deg); }
+
+/* corner index: the suit sits just under the number (spades and clubs reach higher than hearts and
+   diamonds, so the old tuck made their tips touch the number on small cards) */
+.card .corner .suit { margin-top: -0.06em; }
+.card .corner.s-spade .suit, .card .corner.s-club .suit { margin-top: 0.02em; }
