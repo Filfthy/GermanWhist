@@ -13,7 +13,7 @@
   <script>
     // Keep up to date without retyping the address: if the published version is newer than this
     // page, fetch the page afresh and reload once. (version.txt is never taken from the cache.)
-    window.GW_VERSION = 13;
+    window.GW_VERSION = 14;
     (function () {
       if (!window.fetch || location.protocol === "file:") return;
       fetch("version.txt", { cache: "no-store" }).then(r => r.ok ? r.text() : "").then(t => {
@@ -24,8 +24,8 @@
       }).catch(() => {});
     })();
   </script>
-  <link rel="stylesheet" href="./gw.css?v=13">
-  <link rel="stylesheet" href="./gw-ui.css?v=13">
+  <link rel="stylesheet" href="./gw.css?v=14">
+  <link rel="stylesheet" href="./gw-ui.css?v=14">
 </head>
 <body>
   <div id="game-area">
@@ -336,14 +336,14 @@
     .sc-orange { color: #f08c00; }
   </style>
 
-  <script src="./AI3.js?v=13"></script>
-  <script src="./gw-expert.js?v=13"></script>
-  <script src="./gw-tutorial.js?v=13"></script>
-  <script src="./gw-core.js?v=13"></script>
+  <script src="./AI3.js?v=14"></script>
+  <script src="./gw-expert.js?v=14"></script>
+  <script src="./gw-tutorial.js?v=14"></script>
+  <script src="./gw-core.js?v=14"></script>
 
   <!-- standalone instructions overlay removed: instructions live inside the start overlay now -->
 
-  <script src="./gw-ui.js?v=13"></script>
-  <script src="./gw-app.js?v=13"></script>
+  <script src="./gw-ui.js?v=14"></script>
+  <script src="./gw-app.js?v=14"></script>
 </body>
 </html>
