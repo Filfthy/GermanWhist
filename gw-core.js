@@ -354,8 +354,9 @@ class CardView {
   }
 
   pipPositionToPercent(col, row) {
-    const colMap = { L: 30, C: 50, R: 70 };
-    const rowMap = { T: 25, TM: 38, M: 50, BM: 62, B: 75 };
+    // the pip field sits clear of the corner indices
+    const colMap = { L: 37, C: 50, R: 63 };
+    const rowMap = { T: 30, TM: 40, M: 50, BM: 60, B: 70 };
     return { x: colMap[col] ?? 50, y: rowMap[row] ?? 50 };
   }
 
@@ -435,14 +436,15 @@ class CardView {
           return div;
         }
 
-        const leftX  = 32;
-        const rightX = 68;
-        const y1 = 25;
-        const y2 = 42;
-        const y3 = 58;
-        const y4 = 75;
-        const ycTop    = 33.5;
-        const ycBottom = 66.5;
+        // 8, 9 and 10: four rows, kept clear of the corner indices
+        const leftX  = 37;
+        const rightX = 63;
+        const y1 = 30;
+        const y2 = 43.5;
+        const y3 = 56.5;
+        const y4 = 70;
+        const ycTop    = 36.7;
+        const ycBottom = 63.3;
 
         if (card.rank === "10") {
           const positions = [
