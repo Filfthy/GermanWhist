@@ -13,7 +13,7 @@
   <script>
     // Keep up to date without retyping the address: if the published version is newer than this
     // page, fetch the page afresh and reload once. (version.txt is never taken from the cache.)
-    window.GW_VERSION = 8;
+    window.GW_VERSION = 9;
     (function () {
       if (!window.fetch || location.protocol === "file:") return;
       fetch("version.txt", { cache: "no-store" }).then(r => r.ok ? r.text() : "").then(t => {
@@ -24,8 +24,8 @@
       }).catch(() => {});
     })();
   </script>
-  <link rel="stylesheet" href="./gw.css?v=8">
-  <link rel="stylesheet" href="./gw-ui.css?v=8">
+  <link rel="stylesheet" href="./gw.css?v=9">
+  <link rel="stylesheet" href="./gw-ui.css?v=9">
 </head>
 <body>
   <div id="game-area">
@@ -233,7 +233,7 @@
           <p>Despite its name, there's nothing German about German Whist. It's a two-player version of Whist and is most likely British. It's also known as Honeymoon Whist and Chinese Whist, and in Sweden as Hamburger Whist.</p>
           <p>Whist itself grew out of an older English game, Ruff and Honours, and became hugely popular in the 18th century after Edmond Hoyle published his short treatise on it in 1742. Whist needs four players; German Whist's drafting round, where the stock is fought over trick by trick, lets two people play.</p>
           <p>Players have long disagreed about the scoring. Some count all 26 tricks; this game, like many players, counts only the 13 tricks of Round 2, which makes Round 1 purely about building your hand.</p>
-          <p>That's the real charm of German Whist: most good card games need three or four people, and this one needs only two. Now you know how to play, why not get out a real deck and play it with someone across the table?</p>
+          <p>Most good card games need three or four people, and this one needs only two. Now you know how to play, why not get out a real deck and play it with someone across the table?</p>
         </details>
         <details class="acc">
           <summary>Tips</summary>
@@ -339,14 +339,14 @@
     .sc-orange { color: #f08c00; }
   </style>
 
-  <script src="./AI3.js?v=8"></script>
-  <script src="./gw-expert.js?v=8"></script>
-  <script src="./gw-tutorial.js?v=8"></script>
-  <script src="./gw-core.js?v=8"></script>
+  <script src="./AI3.js?v=9"></script>
+  <script src="./gw-expert.js?v=9"></script>
+  <script src="./gw-tutorial.js?v=9"></script>
+  <script src="./gw-core.js?v=9"></script>
 
   <!-- standalone instructions overlay removed: instructions live inside the start overlay now -->
 
-  <script src="./gw-ui.js?v=8"></script>
-  <script src="./gw-app.js?v=8"></script>
+  <script src="./gw-ui.js?v=9"></script>
+  <script src="./gw-app.js?v=9"></script>
 </body>
 </html>
