@@ -523,12 +523,12 @@ body.faces-traditional .card .royal-inset-img { object-fit: contain; }
 }
 
 /* ===================================================================== tables and card backs (as in Oh Hell) */
-body.table-red      { background-image: radial-gradient(ellipse at 50% 46%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.18) 42%, rgba(0,0,0,0.72) 78%, rgba(0,0,0,0.88) 100%), url("baize-red.jpg");  background-color: #2a0507; }
-body.table-blue     { background-image: radial-gradient(ellipse at 50% 46%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.18) 42%, rgba(0,0,0,0.72) 78%, rgba(0,0,0,0.88) 100%), url("baize-blue.jpg"); background-color: #05102a; }
-body.table-walnut   { background-image: radial-gradient(ellipse at 50% 46%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.12) 42%, rgba(0,0,0,0.65) 78%, rgba(0,0,0,0.85) 100%), url("walnut.jpg"); background-color: #2a160c; }
-body.table-mahogany { background-image: radial-gradient(ellipse at 50% 46%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.12) 42%, rgba(0,0,0,0.65) 78%, rgba(0,0,0,0.85) 100%), url("table-mahogany.jpg"); background-color: #2a0c08; }
-body.table-tavern   { background-image: radial-gradient(ellipse at 50% 46%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.12) 42%, rgba(0,0,0,0.65) 78%, rgba(0,0,0,0.85) 100%), url("table-tavern.jpg"); background-color: #2a180c; }
-body.table-marble   { background-image: radial-gradient(ellipse at 50% 46%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.12) 42%, rgba(0,0,0,0.65) 78%, rgba(0,0,0,0.85) 100%), url("table-marble.jpg"); background-color: #1c1c1e; }
+body.table-red      { background-image: var(--vignette), url("baize-red.jpg");  background-color: #2a0507; }
+body.table-blue     { background-image: var(--vignette), url("baize-blue.jpg"); background-color: #05102a; }
+body.table-walnut   { background-image: var(--vignette-wood), url("walnut.jpg"); background-color: #2a160c; }
+body.table-mahogany { background-image: var(--vignette-wood), url("table-mahogany.jpg"); background-color: #2a0c08; }
+body.table-tavern   { background-image: var(--vignette-wood), url("table-tavern.jpg"); background-color: #2a180c; }
+body.table-marble   { background-image: var(--vignette-wood), url("table-marble.jpg"); background-color: #1c1c1e; }
 body[class*="table-"]:not(.table-green) { background-repeat: no-repeat, repeat; background-size: 100% 100%, cover; }
 body.table-red, body.table-blue { background-size: 100% 100%, auto; }
 
@@ -680,3 +680,32 @@ body:has(#splash:not([style*="none"])) #start-overlay { visibility: hidden; }
 /* the farewell has one button */
 #coach.closing #coach-leave { display: none; }
 #coach.closing .coach-buttons { justify-content: flex-end; }
+
+/* tricks won: little cards in the chosen back */
+.won-stack .card.back.won-trick {
+  position: absolute;
+  width: calc(var(--small-card-width) * 0.42) !important;
+  height: calc(var(--small-card-height) * 0.42) !important;
+  padding: 0;
+  border-radius: calc(3px * var(--card-scale));
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+  pointer-events: none;
+}
+#results-panel .results-ruler .card.back.ruler-token {
+  width: 1.1em !important;
+  height: 1.6em !important;
+  padding: 0;
+  border-radius: 3px;
+  margin: 0 auto;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+/* the darkening towards the edges of the table: lighter on a phone, where the edges are close to the cards */
+body {
+  --vignette: radial-gradient(ellipse at 50% 46%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.18) 42%, rgba(0,0,0,0.72) 78%, rgba(0,0,0,0.88) 100%);
+  --vignette-wood: radial-gradient(ellipse at 50% 46%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.12) 42%, rgba(0,0,0,0.65) 78%, rgba(0,0,0,0.85) 100%);
+}
+body.compact {
+  --vignette: radial-gradient(ellipse at 50% 46%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.06) 50%, rgba(0,0,0,0.3) 85%, rgba(0,0,0,0.45) 100%);
+  --vignette-wood: radial-gradient(ellipse at 50% 46%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.05) 50%, rgba(0,0,0,0.28) 85%, rgba(0,0,0,0.42) 100%);
+}

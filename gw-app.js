@@ -246,21 +246,25 @@ class TableView {
     aiWonDiv.innerHTML = "";
     playerWonDiv.innerHTML = "";
 
+    // Each trick won is a little card in the chosen back, stacked beside the hands. The stacks sit
+    // just clear of the widest hand (on a phone the hands spread wide), and on a short screen the
+    // cards overlap more so thirteen still fit.
+    const s = layoutMetrics.scale;
+    const halfHand = 6 * (layoutMetrics.fanStep || 14) * s + layoutMetrics.cardWidth / 2;
+    const gap = Math.max(180 * s, halfHand + 12 * s);
+    const backH = layoutMetrics.cardHeight * 0.42;
+    const step = Math.min(24 * s, Math.max(4, (window.innerHeight * 0.4 - backH) / 12));
+    [aiWonDiv, playerWonDiv].forEach(d => { d.style.marginLeft = gap + "px"; });
+
     const paintStack = (root, count, direction) => {
-      const s = layoutMetrics.scale;
-      const step = 24 * s;
-
       for (let i = 0; i < count; i++) {
-        const img = document.createElement("img");
-        img.src = "trick.png";
-        img.className = "won-trick";
-
-        const y = (direction === "down") ? i * step : -i * step;
-
-        img.style.left = "0px";
-        img.style.top = `${y}px`;
-
-        root.appendChild(img);
+        const el = this.cardView.createCardElement(null, { back: true });
+        el.classList.add("won-trick");
+        const y = (direction === "down") ? i * step : -i * step - backH;
+        el.style.left = "0px";
+        el.style.top = `${y}px`;
+        el.style.zIndex = direction === "down" ? i : count - i;
+        root.appendChild(el);
       }
     };
 
@@ -1330,11 +1334,9 @@ class GameController {
       layout.appendChild(
         makeScaleGrid("ruler-marker-grid", (cell, i) => {
           if (i !== trickIndex) return;
-          const img = document.createElement("img");
-          img.src = "trick.png";
-          img.alt = "";
-          img.className = "ruler-token";
-          cell.appendChild(img);
+          const tok = this.view.cardView.createCardElement(null, { back: true });
+          tok.classList.add("ruler-token");
+          cell.appendChild(tok);
         })
       );
     };

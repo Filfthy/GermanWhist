@@ -237,12 +237,7 @@ body {
 
   /* --- smoky falloff / vignette over baize --- */
   background-image:
-    radial-gradient(ellipse at 50% 46%,
-      rgba(0, 0, 0, 0.00) 0%,
-      rgba(0, 0, 0, 0.18) 42%,
-      rgba(0, 0, 0, 0.72) 78%,
-      rgba(0, 0, 0, 0.88) 100%
-    ),
+    var(--vignette),
     url("baize.jpg");
 
   background-repeat: no-repeat, repeat;
