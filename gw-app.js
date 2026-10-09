@@ -246,15 +246,20 @@ class TableView {
     aiWonDiv.innerHTML = "";
     playerWonDiv.innerHTML = "";
 
-    // Each trick won is a little card in the chosen back, stacked beside the hands. The stacks sit
-    // just clear of the widest hand (on a phone the hands spread wide), and on a short screen the
-    // cards overlap more so thirteen still fit.
+    // Each trick won is a marker beside the hands, every one clear of the next so they can be counted.
+    // On a desktop they stand in one column to the right of the hands, as they always have. On a
+    // phone there isn't the height for thirteen in a column, so they go into short columns to the
+    // left of the hands (the corner buttons have the right-hand edge), each column further out.
     const s = layoutMetrics.scale;
+    const compact = document.body.classList.contains("compact");
     const halfHand = 6 * (layoutMetrics.fanStep || 14) * s + layoutMetrics.cardWidth / 2;
-    const gap = Math.max(180 * s, halfHand + 12 * s);
-    const backH = 22 * s;   // the marker's height
-    const step = Math.min(24 * s, Math.max(4, (window.innerHeight * 0.4 - backH) / 12));
-    [aiWonDiv, playerWonDiv].forEach(d => { d.style.marginLeft = gap + "px"; });
+    const markW = 29 * s, markH = 22 * s;   // the marker's size (see .won-trick-pair)
+    const pitch = compact ? markH + 4 : 24 * s;
+    const rows = compact ? Math.max(1, Math.floor((window.innerHeight * 0.42 - markH) / pitch) + 1) : 13;
+    const side = compact ? -1 : 1;
+    const col0 = compact ? -(halfHand + 36 * s + markW) : Math.max(180 * s, halfHand + 12 * s);
+    const colStep = markW + 5 * s;
+    [aiWonDiv, playerWonDiv].forEach(d => { d.style.marginLeft = col0 + "px"; });
 
     const paintStack = (root, count, direction) => {
       for (let i = 0; i < count; i++) {
@@ -267,8 +272,9 @@ class TableView {
           c.classList.add("won-trick");
           el.appendChild(c);
         }
-        const y = (direction === "down") ? i * step : -i * step - backH;
-        el.style.left = "0px";
+        const col = Math.floor(i / rows), row = i % rows;
+        const y = (direction === "down") ? row * pitch : -row * pitch - markH;
+        el.style.left = (side * col * colStep) + "px";
         el.style.top = `${y}px`;
         el.style.zIndex = direction === "down" ? i : count - i;
         root.appendChild(el);
