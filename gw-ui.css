@@ -739,6 +739,6 @@ body.compact {
 #splash .splash-note { font-family: Georgia, "Times New Roman", serif; font-style: italic; font-size: clamp(14px, 2vh, 19px); color: rgba(253, 246, 227, 0.8); margin-top: 1.2vh; }
 #splash .splash-note { position: absolute; left: 0; right: 0; margin: 0; }
 
-/* the plain black table: no cloth, no vignette; gold for the windows */
-body.table-black { background: #000 !important; --ui-rgb: 12, 12, 12; --accent: #d4af37; --accent-rgb: 212, 175, 55; --accent-hi: #ecc94b; --accent-soft: #f2dc94; }
-.seg-tables .sw-black { background: #000 !important; }
+/* More card games: a proper-sized button on the start screen, the same height as Tutorial and Play's labels */
+#start-panel .sp-friends .friend-btn { font-size: 1.1em; padding: 0.65em 0.8em; font-weight: 700; }
+#results-panel .results-friends .friend-btn { font-size: 1.05em; padding: 0.6em 1.4em; font-weight: 700; }
