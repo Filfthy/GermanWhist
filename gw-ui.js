@@ -105,15 +105,15 @@ const GWUI = {
   // ------------------------------------------------------------------ More card games, Share, Credits
   showMoreGames() {
     const games = [
-      { key: "drakeharbour", devices: "Desktop", title: "Drakeharbour Syndicates", description: "Meld cards to found Charters, spend stamina in a painted guild town and complete quests for renown, against up to three computer rivals." },
+      { key: "drakeharbour", soon: true, devices: "Desktop", title: "Drakeharbour Syndicates", description: "Meld cards to found Charters, spend stamina in a painted guild town and complete quests for renown, against up to three computer rivals." },
       { key: "artifact", devices: "Mobile & desktop", title: "Artifact", description: "Tactical space rummy. Collect planet cards and steer a probe to discover alien artifacts, playing against up to three computer opponents." },
       { key: "oh-hell-extended", devices: "Mobile & desktop", title: "Oh Hell! Extended", description: "Bid your tricks, then win exactly that many. Play classic Oh Hell or add Suns, Moons, Dragons and Jokers, against up to four computer opponents." }
     ];
     this.modal(`<h2>More card games</h2><p class="games-intro">Other games by BugVictim.</p>
       <div class="other-games">${games.map(g => `<article class="other-game">
-        <div class="game-picture"><img src="img/more-games-${g.key}.webp" alt="${g.title} artwork" loading="lazy"></div>
+        <div class="game-picture">${g.soon ? '<span class="soon-ribbon">Coming soon</span>' : ""}<img src="img/more-games-${g.key}.webp" alt="${g.title} artwork" loading="lazy"></div>
         <h3>${g.title}</h3><span class="game-devices">${g.devices}</span><p>${g.description}</p>
-        <a class="play-link" href="https://bug-victim.itch.io/${g.key}" target="_blank" rel="noopener noreferrer">Play on itch.io</a>
+        ${g.soon ? '<span class="play-link soon">Coming soon</span>' : `<a class="play-link" href="https://bug-victim.itch.io/${g.key}" target="_blank" rel="noopener noreferrer">Play on itch.io</a>`}
       </article>`).join("")}</div>
       ${this.shareBox()}
       <div class="modal-buttons"><button type="button" data-close>Back</button></div>`, "wide");
