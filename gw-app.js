@@ -258,8 +258,15 @@ class TableView {
 
     const paintStack = (root, count, direction) => {
       for (let i = 0; i < count; i++) {
-        const el = this.cardView.createCardElement(null, { back: true });
-        el.classList.add("won-trick");
+        // a trick is two cards squared up together; each trick lies crosswise to the one before,
+        // the way players keep their tricks countable at the table
+        const el = document.createElement("div");
+        el.className = "won-trick-pair" + (i % 2 ? " across" : "");
+        for (let k = 0; k < 2; k++) {
+          const c = this.cardView.createCardElement(null, { back: true });
+          c.classList.add("won-trick");
+          el.appendChild(c);
+        }
         const y = (direction === "down") ? i * step : -i * step - backH;
         el.style.left = "0px";
         el.style.top = `${y}px`;

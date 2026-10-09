@@ -709,3 +709,14 @@ body.compact {
   --vignette: radial-gradient(ellipse at 50% 46%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.06) 50%, rgba(0,0,0,0.3) 85%, rgba(0,0,0,0.45) 100%);
   --vignette-wood: radial-gradient(ellipse at 50% 46%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.05) 50%, rgba(0,0,0,0.28) 85%, rgba(0,0,0,0.42) 100%);
 }
+
+/* each trick won: two cards, one turned across the other */
+.won-stack .won-trick-pair {
+  position: absolute;
+  width: calc(var(--small-card-width) * 0.42);
+  height: calc(var(--small-card-height) * 0.42);
+  pointer-events: none;
+}
+.won-stack .won-trick-pair .card.back.won-trick { left: 0; top: 0; }
+.won-stack .won-trick-pair .card.back.won-trick:last-child { left: calc(2px * var(--card-scale)); top: calc(-2px * var(--card-scale)); }
+.won-stack .won-trick-pair.across { transform: rotate(90deg); }
