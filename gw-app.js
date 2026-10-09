@@ -766,6 +766,16 @@ class GameController {
       }
     };
     splash.addEventListener("click", leaveSplash);
+    // the reminder sits halfway between the credits and "Click to start"
+    const placeNote = () => {
+      const note = splash.querySelector(".splash-note"), credit = splash.querySelector(".splash-credit"), start = splash.querySelector(".splash-start");
+      if (!note || splash.style.display === "none") return;
+      const a = credit.getBoundingClientRect().bottom, b = start.getBoundingClientRect().top;
+      note.style.top = ((a + b) / 2 - note.offsetHeight / 2) + "px";
+    };
+    placeNote();
+    window.addEventListener("resize", placeNote);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(placeNote);
     splash.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); leaveSplash(); } });
     if (!IS_TOUCH) splash.focus();
 
