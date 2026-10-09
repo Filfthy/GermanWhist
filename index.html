@@ -13,7 +13,7 @@
   <script>
     // Keep up to date without retyping the address: if the published version is newer than this
     // page, fetch the page afresh and reload once. (version.txt is never taken from the cache.)
-    window.GW_VERSION = 4;
+    window.GW_VERSION = 5;
     (function () {
       if (!window.fetch || location.protocol === "file:") return;
       fetch("version.txt", { cache: "no-store" }).then(r => r.ok ? r.text() : "").then(t => {
@@ -24,8 +24,8 @@
       }).catch(() => {});
     })();
   </script>
-  <link rel="stylesheet" href="./gw.css?v=4">
-  <link rel="stylesheet" href="./gw-ui.css?v=4">
+  <link rel="stylesheet" href="./gw.css?v=5">
+  <link rel="stylesheet" href="./gw-ui.css?v=5">
 </head>
 <body>
   <div id="game-area">
@@ -100,6 +100,7 @@
   <div class="splash-credit">© BugVictim 2025<br><span class="artwork-credit">with artwork by Pucky</span></div>
   <div class="splash-note">Remember to check out my other games</div>
   <div class="splash-start">Click to start</div>
+  <div class="splash-version">v2.3</div>
 </div>
 
 <!-- PHONES HELD UPRIGHT -->
@@ -289,8 +290,6 @@
       </div>
     </div>
 
-    <div class="sp-version">v2.3</div>
-
     <!-- GAME RESULTS -->
     <div id="results-panel" style="display:none;">
       <div class="results-content">
@@ -333,14 +332,14 @@
     .sc-orange { color: #f08c00; }
   </style>
 
-  <script src="./AI3.js?v=4"></script>
-  <script src="./gw-expert.js?v=4"></script>
-  <script src="./gw-tutorial.js?v=4"></script>
-  <script src="./gw-core.js?v=4"></script>
+  <script src="./AI3.js?v=5"></script>
+  <script src="./gw-expert.js?v=5"></script>
+  <script src="./gw-tutorial.js?v=5"></script>
+  <script src="./gw-core.js?v=5"></script>
 
   <!-- standalone instructions overlay removed: instructions live inside the start overlay now -->
 
-  <script src="./gw-ui.js?v=4"></script>
-  <script src="./gw-app.js?v=4"></script>
+  <script src="./gw-ui.js?v=5"></script>
+  <script src="./gw-app.js?v=5"></script>
 </body>
 </html>

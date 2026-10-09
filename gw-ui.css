@@ -791,3 +791,14 @@ body.compact #player-name {
   background: rgba(0, 0, 0, 0.35) !important; color: var(--accent-soft) !important; border: 1px dashed var(--accent) !important;
   cursor: default; font-style: italic;
 }
+
+/* the version, quietly in the title screen's bottom-right corner */
+#splash .splash-version {
+  position: absolute;
+  right: max(14px, env(safe-area-inset-right));
+  bottom: max(10px, env(safe-area-inset-bottom));
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  color: rgba(253, 246, 227, 0.55);
+  pointer-events: none;
+}
