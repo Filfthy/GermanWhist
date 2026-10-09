@@ -767,6 +767,7 @@ class GameController {
       }
     };
     splash.addEventListener("click", leaveSplash);
+    if (window.__splashEarly) leaveSplash();   // clicked while the game was still loading
     // the reminder sits halfway between the credits and "Click to start"
     const placeNote = () => {
       const note = splash.querySelector(".splash-note"), credit = splash.querySelector(".splash-credit"), start = splash.querySelector(".splash-start");
