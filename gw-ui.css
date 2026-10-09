@@ -748,3 +748,24 @@ body.compact {
 .friend-btn .mg-pips .pr { color: #e0393a; }
 .friend-btn .mg-pips .pb { color: #111; -webkit-text-stroke: 3px #fdf6e3; paint-order: stroke fill; }
 .friend-btn .mg-pips .pr { -webkit-text-stroke: 3px #fdf6e3; paint-order: stroke fill; }
+
+/* ===================================================================== phones: room for the round title and the box captions
+   The hands move out to the screen edges, the title sits just above the boxes and the captions just below. */
+body.compact #ai-hand { top: 3px; }
+body.compact #player-hand { bottom: 3px; }
+body.compact #round-label { top: calc(50% - 48px * var(--card-scale) - 6px - 1.35em); font-size: 14px; opacity: 0.8; }
+body.compact #deck-area .deck-col > div:first-child,
+body.compact #ai-play-area > div:first-child,
+body.compact #player-play-area > div:first-child { top: calc(100% + 7px); font-size: 12.5px; line-height: 1; opacity: 0.8; }
+
+/* Stats */
+.stats-table { width: 100%; border-collapse: collapse; }
+.stats-table th { text-align: left; font-size: 0.85em; color: var(--accent-soft); font-weight: 700; padding: 0.3em 0.5em; border-bottom: 1px solid rgba(var(--accent-rgb), 0.4); }
+.stats-table td { padding: 0.45em 0.5em; border-bottom: 1px solid rgba(255, 255, 255, 0.07); }
+.stats-table td small { opacity: 0.7; }
+.stats-table .st-name { font-weight: 700; white-space: nowrap; }
+.stats-table .st-pips { margin-left: 0.5em; font-size: 0.85em; opacity: 0.85; }
+.stats-table .st-pips .pip { margin-left: 0.1em; }
+.stats-table .st-none { opacity: 0.55; font-style: italic; }
+.st-note { font-size: 0.85em; opacity: 0.7; margin: 0.8em 0 0; }
+#start-panel .tab-page[data-page="game"] .look-foot { margin-top: 0.2em; }

@@ -721,6 +721,7 @@ class GameController {
     // the sharing strip, on the title screen and the start screen
     document.querySelectorAll(".share-slot").forEach(s => { s.outerHTML = GWUI.shareBox(); });
     GWUI.bindShareBoxes();
+    document.getElementById("btn-stats").addEventListener("click", () => { this.sfxClick(); this.showStats(); });
     const creditsBtn = document.getElementById("btn-credits");
     if (creditsBtn) creditsBtn.addEventListener("click", () => GWUI.showCredits());
 
@@ -780,6 +781,42 @@ class GameController {
     if (!IS_TOUCH) splash.focus();
 
     this.bindCornerButtons();
+  }
+
+  // ---------------------------------------------------------------- your record against each opponent
+  loadStats() {
+    try { return JSON.parse(GWUI.load("gw_stats", "{}")) || {}; } catch (e) { return {}; }
+  }
+
+  // matchWon: true / false when a match has just ended, null otherwise
+  recordResult(myTricks, theirTricks, matchWon) {
+    const stats = this.loadStats();
+    const s = stats[this.opponentId] || (stats[this.opponentId] = { played: 0, won: 0, best: 0, matches: 0, matchesWon: 0 });
+    s.played++;
+    if (myTricks > theirTricks) s.won++;
+    s.best = Math.max(s.best, myTricks);
+    if (matchWon !== null) { s.matches++; if (matchWon) s.matchesWon++; }
+    GWUI.save("gw_stats", JSON.stringify(stats));
+  }
+
+  showStats() {
+    const stats = this.loadStats();
+    const opps = [...document.querySelectorAll('input[name="opponent"]')].map(r => ({ id: r.id, name: r.dataset.label, pips: r.closest(".opponent-row").querySelector(".opponent-rating").innerHTML }));
+    const rows = opps.map(o => {
+      const s = stats[o.id];
+      if (!s || !s.played) return `<tr><td class="st-name">${o.name}<span class="st-pips">${o.pips}</span></td><td colspan="4" class="st-none">not played yet</td></tr>`;
+      const pct = Math.round(100 * s.won / s.played);
+      return `<tr><td class="st-name">${o.name}<span class="st-pips">${o.pips}</span></td><td>${s.played}</td><td>${s.won} <small>(${pct}%)</small></td><td>${s.best}</td><td>${s.matches ? `${s.matchesWon} of ${s.matches}` : "&ndash;"}</td></tr>`;
+    }).join("");
+    const body = GWUI.modal(`<h2>Your record</h2>
+      <table class="stats-table"><thead><tr><th>Opponent</th><th>Games</th><th>Won</th><th>Best</th><th>Matches won</th></tr></thead><tbody>${rows}</tbody></table>
+      <p class="st-note">Best is the most tricks you've taken in a game. The tutorial isn't counted.</p>
+      <div class="modal-buttons"><button type="button" class="quiet" id="stats-reset">Reset</button><button type="button" data-close>Back</button></div>`, "");
+    body.querySelector("#stats-reset").onclick = async () => {
+      const yes = await GWUI.ask("Reset your record?", "Your results against every opponent will be cleared.", "Reset", "Keep it");
+      if (yes) GWUI.save("gw_stats", "{}");
+      this.showStats();
+    };
   }
 
   showStartOverlay() {
@@ -1152,6 +1189,7 @@ class GameController {
     }
 
     const matchOver = isMatch && (this.playerMatchScore >= this.matchTarget || this.aiMatchScore >= this.matchTarget);
+    if (!this.tut) this.recordResult(playerTricks, aiTricks, isMatch && matchOver ? this.playerMatchScore > this.aiMatchScore : null);
 
     const aiBox = document.querySelector("#ai-play-area > div:first-child");
     const playerBox = document.querySelector("#player-play-area > div:first-child");
