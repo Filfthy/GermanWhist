@@ -956,9 +956,7 @@ body.overlay-active #player-name {
   width: 100%;
   border-collapse: collapse;
   table-layout: fixed;
-  background: radial-gradient(circle at 10% 0%,
-              rgba(var(--accent-rgb), 0.20) 0,
-              rgba(4,27,16,0.95) 55%);
+  background: rgba(0, 0, 0, 0.28);
   border: 1px solid rgba(255,255,255,0.12);
   border-radius: 8px;
   overflow: hidden;
@@ -1244,9 +1242,7 @@ body.overlay-active #player-name {
     border-radius: 6px;
     border: 1px solid rgba(255,255,255,0.12);
     padding: 0.3em 0.3em 0.15em;
-    background: radial-gradient(circle at 10% 0%,
-                rgba(var(--accent-rgb), 0.20) 0,
-                rgba(4,27,16,0.95) 55%);
+    background: rgba(0, 0, 0, 0.28);
   }
 
   .opponent-row {

@@ -686,7 +686,7 @@ class GameController {
       this.autoFullscreen = checked("autofs") !== "off";
       this.table = checked("table") || "green";
       this.cardBack = checked("cardback") || "bugvictim";
-      ["green", "red", "blue", "walnut", "mahogany", "tavern", "marble"].forEach(t => document.body.classList.remove("table-" + t));
+      ["green", "red", "blue", "walnut", "mahogany", "tavern", "marble", "black"].forEach(t => document.body.classList.remove("table-" + t));
       ["bugvictim", "hellfire", "classic-blue", "classic-red", "drakeharbour", "artifact"].forEach(k => document.body.classList.remove("back-" + k));
       document.body.classList.add(`table-${this.table}`, `back-${this.cardBack}`);
       document.body.classList.remove("suitcolors-classic", "suitcolors-rbbg", "suitcolors-rbbo");
