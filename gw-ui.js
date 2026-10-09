@@ -105,7 +105,7 @@ const GWUI = {
   // ------------------------------------------------------------------ More card games, Share, Credits
   showMoreGames() {
     const games = [
-      { key: "drakeharbour", soon: true, devices: "Desktop", title: "Drakeharbour Syndicates", description: "Meld cards to found Charters, spend stamina in a painted guild town and complete quests for renown, against up to three computer rivals." },
+      { key: "drakeharbour", devices: "Desktop", title: "Drakeharbour Syndicates", description: "Meld cards to found Charters, spend stamina in a busy guild town and complete quests for renown, against up to three computer rivals." },
       { key: "artifact", devices: "Mobile & desktop", title: "Artifact", description: "Tactical space rummy. Collect planet cards and steer a probe to discover alien artifacts, playing against up to three computer opponents." },
       { key: "oh-hell-extended", devices: "Mobile & desktop", title: "Oh Hell! Extended", description: "Bid your tricks, then win exactly that many. Play classic Oh Hell or add Suns, Moons, Dragons and Jokers, against up to four computer opponents." }
     ];
